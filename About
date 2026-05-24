@@ -1,0 +1,117 @@
+# PLC ↔ MQTT ↔ Node-RED | IIoT Communication
+
+Real-time bidirectional communication between Siemens S7-1214C PLC 
+and Node-RED dashboard via Mosquitto MQTT Broker.
+
+---
+
+## Architecture
+
+Siemens S7-1214C → Mosquitto Broker → Node-RED
+       ↑                                   |
+       └───────── watchdog/value ──────────┘
+
+---
+
+## Topics
+
+| Topic           | Direction        | Message        |
+|-----------------|------------------|----------------|
+| s71200/data     | PLC → Node-RED   | JSON string    |
+| watchdog/value  | Node-RED → PLC   | Int (1..999)   |
+| s71200/commands | Node-RED → PLC   | JSON string    |
+
+---
+
+## Software Used
+
+| Software          | Version  |
+|-------------------|----------|
+| TIA Portal        | V19      |
+| Mosquitto Broker  | 2.1.2    |
+| Node-RED          | Latest   |
+
+---
+
+## Hardware Used
+
+| Hardware              | Details              |
+|-----------------------|----------------------|
+| Siemens S7-1214C      | CPU 1214C DC/DC/DC   |
+| Laptop / Local Server | VMware Workstation   |
+
+---
+
+## Setup Guide
+
+### 1. Mosquitto Broker
+- Install Mosquitto on your machine
+- Replace mosquitto.conf with the one in /Mosquitto folder
+- Run:
+mosquitto -c mosquitto.conf -v
+
+### 2. TIA Portal
+- Import SCL files from /TIA-Portal/SCL/
+- Configure LMQTT_Client FB:
+  - BrokerAddress: your PC IP
+  - BrokerPort: 1883
+  - ClientID: PLC_1214C
+- Download to PLC
+
+### 3. Node-RED
+- Import flows.json from /NodeRED/
+- Install node-red-dashboard
+- Configure MQTT broker node to your PC IP
+- Deploy and open:
+http://localhost:1880/ui
+
+---
+
+## PLC SCL - JSON Payload Format
+
+### Published from PLC (s71200/data):
+{"bool1":true,"bool2":false,"real1":60.0,"string1":"CURRENT"}
+
+### Published from Node-RED (watchdog/value):
+1..999 (incrementing integer)
+
+---
+
+## Features
+
+- Real-time PLC data visualization on Node-RED dashboard
+- Bidirectional MQTT communication
+- MQTT Watchdog monitoring (connection health)
+- JSON payload from PLC using SCL CONCAT
+- Mosquitto broker as local server
+
+---
+
+## Connection Diagram
+
+PLC (192.168.0.1) ←── Ethernet ──→ Laptop (192.168.0.100)
+                                          │
+                                    VMware VM
+                                          │
+                                  Mosquitto Broker
+                                          │
+                                       Node-RED
+
+---
+
+## Future Plans
+
+- PostgreSQL database integration
+- Cloud MQTT broker (AWS IoT / HiveMQ)
+- Alarm management system
+- Historical data trending
+
+---
+
+## Author
+
+Your Name
+Sugundan M M
+---
+
+#
