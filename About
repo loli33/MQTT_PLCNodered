@@ -27,7 +27,7 @@ Siemens S7-1214C → Mosquitto Broker → Node-RED
 
 | Software          | Version  |
 |-------------------|----------|
-| TIA Portal        | V19      |
+| TIA Portal        | V20      |
 | Mosquitto Broker  | 2.1.2    |
 | Node-RED          | Latest   |
 
@@ -69,7 +69,7 @@ http://localhost:1880/ui
 
 ## PLC SCL - JSON Payload Format
 
-### Published from PLC (s71200/data):
+### Published from PLC (s71200/para):
 {"bool1":true,"bool2":false,"real1":60.0,"string1":"CURRENT"}
 
 ### Published from Node-RED (watchdog/value):
@@ -89,7 +89,7 @@ http://localhost:1880/ui
 
 ## Connection Diagram
 
-PLC (192.168.0.1) ←── Ethernet ──→ Laptop (192.168.0.100)
+PLC (192.168.0.1) ←── Ethernet ──→ Laptop (192.168.0.150)
                                           │
                                     VMware VM
                                           │
